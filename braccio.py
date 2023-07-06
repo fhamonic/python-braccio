@@ -28,14 +28,8 @@ class Braccio:
 
     @staticmethod
     def clamp_angles(angles):
-        def clamp_value(value, bounds):
-            if value < bounds[0]:
-                return bounds[0]
-            if value > bounds[1]:
-                return bounds[1]
-            return value
-        return [clamp_value(angle, bounds)
-                    for (angle, bounds) in zip(angles, Braccio.axis_angle_bounds)]
+        return [min(max_angle, max(min_angle, angle)) 
+                    for (angle, (min_angle, max_angle)) in zip(angles, Braccio.axis_angle_bounds)]
 
     def move_to(self,angles, speed=20):
         print("MOVE_TO {} {}".format(angles, speed))

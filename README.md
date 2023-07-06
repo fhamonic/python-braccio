@@ -2,13 +2,13 @@
 
 Install prerequisites:
 
-    pip install pyserial
+    pip install pyserial opencv-python
 
-Find the Arduino USB port path:
+Find the Arduino and webcam USB ports paths:
 
     ./list_usb_ports.sh
 
-Assuming its location is '/dev/ttyACM0', set the appropriate permissions:
+Assuming the Arduino location is '/dev/ttyACM0', set the appropriate permissions:
 
     sudo chmod a+rw /dev/ttyACM0
 
@@ -18,4 +18,4 @@ Upload the arduino skecth with Arduino IDE or:
 
 Run the python script:
 
-    python test.py /dev/ttyACM0
+    python test.py /dev/ttyACM0 /dev/video1

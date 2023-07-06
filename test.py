@@ -1,8 +1,17 @@
 from braccio import Braccio
-import sys
+import cv2
+import sys, time
 
-arduino_port = sys.argv[1] if len(sys.argv) else "/dev/ttyACM0"
-arm = Braccio(arduino_port)
+if len(sys.argv) < 3:
+    raise ValueError("Missing parameters: <arduino_port> <webcam_port>")
+
+arm = Braccio(sys.argv[1])
+vid = cv2.VideoCapture(sys.argv[2])
+
+(ret, frame) = vid.read()
+cv2.imshow('frame', frame)
+cv2.waitKey(1)
+time.sleep(5)
 
 arm.home()
 arm.shutdown()
