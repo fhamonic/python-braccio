@@ -7,7 +7,7 @@ Position armPosition;
 
 void setup() {
     Serial.begin(115200);
-    BraccioRobot.init(armPosition.set(0, 150, 0, 0, 90, 73));
+    BraccioRobot.init(armPosition.set(0, 30, 0, 0, 90, 73));
 }
 
 void loop() { handleSerialInput(); }

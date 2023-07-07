@@ -6,7 +6,7 @@ class Braccio:
     axis_names = ["base", "shoulder", "elbow", "wrist", "wristRot", "gripper"]
     axis_angle_bounds = [(0, 180), (15, 165), (0, 180), (0, 180), (0, 180), (0, 73)]
 
-    def __init__(self, path, baud_rate=115200, timeout=10):
+    def __init__(self, path, baud_rate=115200, timeout=5):
         print("INIT")
         self.serial = Serial(path, baud_rate, timeout=timeout)
         self.serial.readlines()  # wait for the arduino to wake up and empty the input buffer
@@ -41,12 +41,12 @@ class Braccio:
 
     def home(self, speed=20):
         print("HOME")
-        home_angles = [0, 150, 0, 0, 90, 73]
+        home_angles = [0, 30, 0, 0, 90, 73]
         self.move_to(home_angles, speed)
 
     def shutdown(self, speed=50):
         print("SHUTDOWN")
-        shutdown_angles = [0, 70, 20, 20, 90, 0]
+        shutdown_angles = [0, 110, 20, 20, 90, 0]
         self.move_to(shutdown_angles, speed)
         self.power_off()
 
