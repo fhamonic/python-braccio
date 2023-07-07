@@ -4,7 +4,8 @@ import time
 
 class Braccio:
     axis_names = ["base", "shoulder", "elbow", "wrist", "wristRot", "gripper"]
-    axis_angle_bounds = [(0, 180), (15, 165), (0, 180), (0, 180), (0, 180), (0, 73)]
+    axis_angle_bounds = [(0, 180), (15, 165), (0, 180),
+                         (0, 180), (0, 180), (0, 73)]
 
     def __init__(self, path, baud_rate=115200, timeout=5):
         print("INIT")
@@ -28,16 +29,19 @@ class Braccio:
 
     @staticmethod
     def clamp_angles(angles):
-        return [min(max_angle, max(min_angle, angle)) 
-                    for (angle, (min_angle, max_angle)) in zip(angles, Braccio.axis_angle_bounds)]
+        return [min(max_angle, max(min_angle, angle))
+                for (angle, (min_angle, max_angle)) in zip(angles, Braccio.axis_angle_bounds)]
 
-    def move_to(self,angles, speed=20):
+    def move_to(self, angles, speed=20):
         print("MOVE_TO {} {}".format(angles, speed))
-        angles = Braccio.clamp_angles(angles)
+        self.current_angles = Braccio.clamp_angles(angles)
         angle_string = "P {angles} {speed}\n".format(
-            angles=' '.join([str(elem) for elem in angles]), speed=speed)
+            angles=' '.join([str(int(elem)) for elem in self.current_angles]), speed=speed)
         self.serial.write(angle_string.encode())
         self.wait_and_handle_ack()
+
+    def get_current_angles(self):
+        return self.current_angles.copy()
 
     def home(self, speed=20):
         print("HOME")
@@ -49,4 +53,3 @@ class Braccio:
         shutdown_angles = [0, 110, 20, 20, 90, 0]
         self.move_to(shutdown_angles, speed)
         self.power_off()
-
